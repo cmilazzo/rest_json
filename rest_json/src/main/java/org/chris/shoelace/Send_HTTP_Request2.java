@@ -1,10 +1,16 @@
 package org.chris.shoelace;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL; 
+import java.net.URL;
+import java.util.Iterator;
+
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Send_HTTP_Request2 {
 	public static void main(String[] args) {
@@ -34,9 +40,26 @@ public static void call_me() throws Exception {
      	response.append(inputLine);
      }
      in.close();
-     //print in String
-     System.out.println(response.toString());
-     //Read JSON response and print
+     
+     JSONParser parser = new JSONParser();
 
-   }
+     //Read JSON response and print
+     try {
+
+    	 Object obj2 = parser.parse(response.toString());
+
+         JSONObject jsonObject = (JSONObject) obj2;
+         System.out.println(jsonObject);
+         
+         String name = (String) jsonObject.get("zipCode");
+         System.out.println(name);
+
+         String age = (String) jsonObject.get("cityName");
+         System.out.println(age);
+
+
+     } catch (ParseException e) {
+         e.printStackTrace();
+     }
+}
 }
